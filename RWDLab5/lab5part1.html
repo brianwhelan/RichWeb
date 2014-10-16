@@ -1,0 +1,32 @@
+<!DOCTYPE html5>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script type="text/javascript" src="lab5part1.js"></script>
+
+<title>JS Form</title>
+</head>
+<body>
+	<div align="left">
+		<form name="form" autocomplete="on"
+			onSubmit="return validate()" method="post">
+			Name:<input type="text" name="fullname"><br>
+			<br> Age: <select name="age">
+				<option value="select_age">SelectAge</option>
+				<option value="lessthan18">0-18</option>
+				<option value="18to30">18-30</option>
+				<option value="30to45">30-45</option>
+				<option value="45to60">45-60</option>
+				<option value="morethan60">60+</option>
+			</select> <br> <br> Gender: <br>Male<input type="radio"
+				name="sex" id="male" value="male" autocomplete="off"> Female<input
+				type="radio" name="sex" id="female"value="female" autocomplete="off"> <br>
+			Check this box to confirm you have read the T&C <input
+				type="checkbox" name="understand" ><br> <input
+				type="submit" value="Finish">
+
+		</form>
+	</div>
+
+</body>
+</html>

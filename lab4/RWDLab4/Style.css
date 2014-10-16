@@ -1,0 +1,50 @@
+@CHARSET "ISO-8859-1";
+
+div {
+	border-style: solid;
+	border-width: 0px;
+}
+
+#main_navs {
+	border-color: yellow;
+	position: absolute;
+	width: 90%;
+	height:100px;
+	right: 0px;
+	top: 0px;
+}
+
+h1{
+	font-size: 250%;
+}
+
+#main {
+	
+	position:absolute;
+	border-color: red;
+	align:right;
+	width:90%;
+	
+	left:10%;
+	top:50px;
+	
+}
+
+#outter_wrapper {
+	position: absolute;
+	border-color: black;
+	width:100%;
+}
+
+#side_bar {
+	border-color: green;
+	width: 10%;
+	left: 0px;
+}
+
+#quote
+{
+	border-style: solid;
+	border-width: 1px;
+	border-color: grey;
+}
