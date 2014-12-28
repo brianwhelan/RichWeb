@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rich Web Application Technology - Backbone</title>
+<link type="text/css" href="app/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+
+<div id="sidebar">
+		<li>
+		<ul><a href="#task1">TASK 1</a></ul>
+		
+		<ul><a href="#task2">TASK 2</a></ul>
+		
+		<ul><a href="#task3">TASK 3</a></ul>
+		</li>
+</div>
+
+	<div id="content">
+		
+		<table id="task_table">
+			<tr>
+				<td>Task ID</td>
+				<td>Questionnaire ID</td>
+				<td>StudentID</td>
+				<td>RMSE</td>
+				<td>MWL</td>
+				<td>Questionnaire Type</td>
+				<td>Questionnaire Value</td>
+				<td>Time Taken</td>
+				<td>Intrusiveness</td>
+			</tr>			
+		</table>
+		
+		<div id="pieChart"></div>
+		
+		<svg class="chart"></svg>
+		
+	</div>		
+	
+
+	<!-- Templates -->
+	<script type="text/template" id="table-template">
+            <tr><td><%= taskID %></td>
+			<td> <%= Q_ID %> </td> <td><%= Student_ID %></td>
+			<td id="RMSE"> <%= RMSE %> </td><td> <%= MWL %> </td><td> <%= Q_type %> </td>
+			<td> <%= Q_value %> </td> <td> <%= time %> </td><td> <%= intrusiveness %> </td></tr>
+        </script>
+        
+
+
+	<!-- JavaScript -->
+	<script src="libs/jquery.js"></script>
+	<script src="libs/underscore.js"></script>
+	<script src="libs/backbone.js"></script>
+	<script src="app/js/main2.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="d3pie.js"></script>
+	
+
+	
+</body>
+</html>
