@@ -14,7 +14,13 @@ html, body {
 }
 
 #sidebar {
-	float: left;
+	max-height : 10%;
+	float : left;
+}
+
+#piechart
+{
+	display : none;
 }
 
 #content h2 {
@@ -27,6 +33,11 @@ html, body {
     border: 1px solid black;
     display : none;
     overflow : auto;
+}
+
+.chart
+{
+	display : none;
 }
 
 .bar {
@@ -50,4 +61,46 @@ html, body {
 
 .x.axis path {
   display: none;
+}
+
+svg {
+  font: 10px sans-serif;
+}
+
+.y.axis path {
+  display: none;
+}
+
+.y.axis line {
+  stroke: #fff;
+  stroke-opacity: .2;
+  shape-rendering: crispEdges;
+}
+
+.y.axis .zero line {
+  stroke: #000;
+  stroke-opacity: 1;
+}
+
+.title {
+  font: 300 78px Helvetica Neue;
+  fill: #666;
+}
+
+.birthyear,
+.age {
+  text-anchor: middle;
+}
+
+.birthyear {
+  fill: #fff;
+}
+
+rect {
+  fill-opacity: .6;
+  fill: #e377c2;
+}
+
+rect:first-child {
+  fill: #1f77b4;
 }
