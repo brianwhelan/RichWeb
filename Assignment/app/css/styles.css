@@ -18,8 +18,6 @@ html, body {
 	float : left;
 }
 
-
-
 #content h2 {
     margin-top: 0;
     margin-bottom: 20px;
@@ -37,11 +35,11 @@ html, body {
 	display : none;
 }
 
-.bar {
+.barChartRect {
   fill: steelblue;
 }
 
-.bar:hover {
+.barChartRect:hover {
   fill: brown;
 }
 
@@ -76,38 +74,12 @@ svg {
   stroke-opacity: 1;
 }
 
-.title {
-  font: 300 78px Helvetica Neue;
-  fill: #666;
-}
 
-.birthyear,
-.age {
-  text-anchor: middle;
-}
+/* task 6 */ 
 
-.birthyear {
-  fill: #fff;
-}
-
-rect {
-  fill-opacity: .6;
-  fill: #e377c2;
-}
-
-rect:first-child {
-  fill: #1f77b4;
-}
-
-
-
-
-
-
-/* task 6 */
 path {  stroke: #fff; }
 path:hover {  opacity:0.9; }
-rect:hover {  fill:blue; }
+rect:hover {  fill:black; }
 .axis {  font: 10px sans-serif; }
 .legend tr{    border-bottom:1px solid grey; }
 .legend tr:first-child{    border-top:1px solid grey; }
@@ -133,4 +105,4 @@ rect:hover {  fill:blue; }
 .legendFreq, .legendPerc{
     align:right;
     width:50px;
-}
+} 

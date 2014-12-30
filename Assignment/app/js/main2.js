@@ -27,6 +27,7 @@ var AppRouter = Backbone.Router.extend({
 		$('#pyramid').remove();
 		$('.donut').remove();
 		$('.legend').remove();
+		$('#dashboard').remove();
 		
 		var tableCollection = new TableCollection();
 
@@ -54,6 +55,7 @@ var AppRouter = Backbone.Router.extend({
 		$('#pyramid').remove();
 		$('.donut').remove();
 		$('.legend').remove();
+		$('#dashboard').remove();
 		
 		$('#content').prepend("<div id='pieChart'></div>");
 
@@ -120,6 +122,7 @@ var AppRouter = Backbone.Router.extend({
 		$('#pyramid').remove();
 		$('.donut').remove();
 		$('.legend').remove();
+		$('#dashboard').remove();
 		
 
 		var studentQuestionnaires = new TableCollection;
@@ -173,6 +176,7 @@ var AppRouter = Backbone.Router.extend({
 		$('#pyramid').remove();
 		$('.donut').remove();
 		$('.legend').remove();
+		$('#dashboard').remove();
 
 		var taskList = new TaskCollection;
 
@@ -236,6 +240,7 @@ var AppRouter = Backbone.Router.extend({
 		$('#pyramid').remove();
 		$('.donut').remove();
 		$('.legend').remove();
+		$('#dashboard').remove();
 
 		
 		var taskList = new TaskCollection;
@@ -333,10 +338,11 @@ var AppRouter = Backbone.Router.extend({
 		$('#barChart').remove();
 		$('#pieChart').remove();
 		$('#pyramid').remove();
+		$('#dashboard').remove();
 		$('.donut').remove();
 		$('.legend').remove();
 		
-		$('#content').append("<img id='Load' width='400' height='400' src='http://www.scorrierhouse.co.uk/loading.gif' alt='Loading'>");
+		$('#content').append("<img id='Load' width='400' height='400' src='images/loading.gif' alt='Loading'>");
 		$('#content').prepend("<div id='dashboard'></div>");
 		
 		
@@ -690,7 +696,7 @@ var BarChartView = Backbone.View.extend({
 						".71em").style("text-anchor", "end").text("Total");
 
 		svg.selectAll(".bar").data(data).enter().append("rect").attr("class",
-				"bar").attr("x", function(d) {
+				"barChartRect").attr("x", function(d) {
 			return x(d.s_id);
 		}).attr("width", x.rangeBand()).attr("y", function(d) {
 			return y(d.count);
