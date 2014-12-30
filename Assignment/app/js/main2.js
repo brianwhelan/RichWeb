@@ -368,7 +368,6 @@ var AppRouter = Backbone.Router.extend({
 					{
 						
 						
-						
 						//var dash_task_number = currentModel.get("task_id");
 						
 						//var holder_collection = dashboardCollection.find({task_id : dash_task_number});
