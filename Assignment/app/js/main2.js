@@ -48,7 +48,7 @@ var AppRouter = Backbone.Router.extend({
 	Pie : function() {
 		
 		$('#content').css("display","inline-flex");
-		$('#task_table').css("display","inline");
+		$('#task_table').css("display","none");
 		$('#barChart').remove();
 		$('#pieChart').remove();
 		$('#pyramid').remove();
@@ -114,7 +114,7 @@ var AppRouter = Backbone.Router.extend({
 		// single chart
 		
 		$('#content').css("display","inline-flex");
-		$('#task_table').css("display","inline");
+		$('#task_table').css("display","none");
 		$('#barChart').remove();
 		$('#pieChart').remove();
 		$('#pyramid').remove();
@@ -167,6 +167,12 @@ var AppRouter = Backbone.Router.extend({
 		
 		
 		$('#content').css("display","none");
+		$('#task_table').css("display","none");
+		$('#barChart').remove();
+		$('#pieChart').remove();
+		$('#pyramid').remove();
+		$('.donut').remove();
+		$('.legend').remove();
 
 		var taskList = new TaskCollection;
 
@@ -322,12 +328,24 @@ var AppRouter = Backbone.Router.extend({
 	
 	Dashboard : function() 
 	{
+		$('#content').css("display","inline");
+		$('#task_table').css("display","none");
+		$('#barChart').remove();
+		$('#pieChart').remove();
+		$('#pyramid').remove();
+		$('.donut').remove();
+		$('.legend').remove();
+		
+		$('#content').append("<img id='Load' width='400' height='400' src='http://www.scorrierhouse.co.uk/loading.gif' alt='Loading'>");
+		$('#content').prepend("<div id='dashboard'></div>");
+		
 		
 		var taskList = new TableCollection;
 		
 		var number_of_tasks = 0;
 
 		var tempCollection = new Backbone.Collection;
+		
 
 		taskList.fetch({
 			success : function() {
@@ -341,14 +359,15 @@ var AppRouter = Backbone.Router.extend({
 					questionByTask.fetch({
 						success : function(Model) {
 
-							var myDashboardmodel = new DashboardModel(
-									{
-										task_id : 0 ,
-										freq:{NASA:0, AT:0, WP:0}
-									});
+							var myDashboardmodel = new DashboardModel();
 							
-							myDashboardmodel.set("task_id", Model.get("task_number"));
-							myDashboardmodel.set(Model.get("questionnairetype") , Model.get("questionnaireValue"));
+							myDashboardmodel.set("task_id", Model.get("details").task_number);
+							
+							var type = Model.get("questionnaireType");
+							
+							myDashboardmodel.set(type,Model.get("questionnaireValue"));
+								
+							//console.log(JSON.stringify(myDashboardmodel.toJSON()));
 							
 							tempCollection.add(myDashboardmodel);
 							
@@ -356,49 +375,84 @@ var AppRouter = Backbone.Router.extend({
 					});
 
 				});
-
-				// console.log(JSON.stringify(tempCollection.toJSON()));
+				
 				$.when(taskList.fetch()).done(function() {
-					
-					console.log(JSON.stringify(tempCollection.toJSON()))
 					
 					var dashboardCollection = new Backbone.Collection;
 					
 					_.each(tempCollection.models, function (currentModel) 
 					{
 						
+						var returnDashboard = Backbone.Model.extend(
+								{
+									defaults : {
+										task_id : 0,
+									}}
+								);
 						
-						//var dash_task_number = currentModel.get("task_id");
 						
-						//var holder_collection = dashboardCollection.find({task_id : dash_task_number});
+						var ex = dashboardCollection.findWhere({task_id : currentModel.get("task_id") });
 						
-						//console.log(holder_collection.get("freq"));
 						
-						/*
-						
-						if(!holder_collection)
+						if(!ex)
 							{
-								var myDonutModel = new DonutModel();
-								myDonutModel.set("task",donut_task_number);
-								myDonutModel.set("count",1);
-								myDonutModel.set("total_tasks",number_of_tasks);
-								donutCollection.add(myDonutModel);
+								//console.log("entered if")
+								
+								var starting_point = new returnDashboard();
+								
+								starting_point.set("task_id", currentModel.get("task_id"));
+								
+								starting_point.set({freq : 
+												{
+													NASA : currentModel.get("NASA") , 
+													AT : currentModel.get("AT"), 
+													WP : currentModel.get("WP")}
+										
+												});
+								
+								//console.log(starting_point);
+								
+								dashboardCollection.add(starting_point);
 							}
-						else
-							{
-								holder_collection.set("count",(holder_collection.get("count") + 1));
-							}*/
+						else{
+								//console.log(JSON.stringify(exists.toJSON()));
+								//console.log("entered else");
+								//console.log(JSON.stringify(ex));
+							
+								var tempNASA = ex.get("freq").NASA;
+								var tempAT = ex.get("freq").AT;
+								var tempWP = ex.get("freq").WP;
+							
+								var myNASA = parseInt(currentModel.get("NASA")) + parseInt(tempNASA);
+								var myAT = parseInt(currentModel.get("AT")) + parseInt(tempAT);
+								var myWP = parseInt(currentModel.get("WP")) + parseInt(tempWP);
+								
+								
+								var starting_point = new returnDashboard();
+								
+								starting_point.set("task_id", currentModel.get("task_id"));
+								starting_point.set("freq", { NASA : myNASA, AT : myAT, WP : myWP});
+								
+								//console.log(JSON.stringify(starting_point.toJSON()));
+								
+								dashboardCollection.add(starting_point);
+								
+								dashboardCollection.remove(ex);
+								
+							}
+						
 						
 					});
 					
-					//console.log(JSON.stringify(donutCollection.toJSON()))
+					console.log(JSON.stringify(dashboardCollection.toJSON()))
+					var myDash = new DashboardView({
+						collection : dashboardCollection,
 
-					var myDounts = new DonutView({
-						collection : donutCollection,
-						total_tasks : number_of_tasks
 					});
 
-					//myDounts.render();
+					$('#Load').remove();
+					myDash.render();
+
 				});
 
 			}
@@ -432,7 +486,7 @@ var DonutModel =  Backbone.Model.extend({
 });
 
 var DashboardModel =  Backbone.Model.extend({
-	defaults : {task_id : 0 ,freq:{NASA:0, AT:0, WP:0}}
+	defaults : {task_id : 0 , NASA:0, AT:0, WP:0}
 });
 
 
@@ -891,19 +945,17 @@ var DashboardView = Backbone.View.extend({
 	
 	render : function ()
 	{
-		var freqData=[
-{State:'AL',freq:{low:4786, mid:1319, high:249}}
-,{State:'AZ',freq:{low:1101, mid:412, high:674}}];
+		var freqData= this.collection.toJSON();
 
-dashboard('#dashboard',freqData);
+		dashboard('#dashboard',freqData);
 		
 		
 		function dashboard(id, fData){
 		    var barColor = 'steelblue';
-		    function segColor(c){ return {low:"#807dba", mid:"#e08214",high:"#41ab5d"}[c]; }
+		    function segColor(c){ return {NASA:"#807dba", AT:"#e08214",WP:"#41ab5d"}[c]; }
 		    
-		    // compute total for each state.
-		    fData.forEach(function(d){d.total=d.freq.low+d.freq.mid+d.freq.high;});
+		    // compute total for each task_id.
+		    fData.forEach(function(d){d.total=d.freq.NASA+d.freq.AT+d.freq.WP;});
 		    
 		    // function to handle histogram.
 		    function histoGram(fD){
@@ -951,8 +1003,8 @@ dashboard('#dashboard',freqData);
 		            .attr("text-anchor", "middle");
 		        
 		        function mouseover(d){  // utility function to be called on mouseover.
-		            // filter for selected state.
-		            var st = fData.filter(function(s){ return s.State == d[0];})[0],
+		            // filter for selected task_id.
+		            var st = fData.filter(function(s){ return s.task_id == d[0];})[0],
 		                nD = d3.keys(st.freq).map(function(s){ return {type:s, freq:st.freq[s]};});
 		               
 		            // call update functions of pie-chart and legend.    
@@ -1019,13 +1071,13 @@ dashboard('#dashboard',freqData);
 		        function mouseover(d){
 		            // call the update function of histogram with new data.
 		            hG.update(fData.map(function(v){ 
-		                return [v.State,v.freq[d.data.type]];}),segColor(d.data.type));
+		                return [v.task_id,v.freq[d.data.type]];}),segColor(d.data.type));
 		        }
 		        //Utility function to be called on mouseout a pie slice.
 		        function mouseout(d){
 		            // call the update function of histogram with all data.
 		            hG.update(fData.map(function(v){
-		                return [v.State,v.total];}), barColor);
+		                return [v.task_id,v.total];}), barColor);
 		        }
 		        // Animating the pie-slice requiring a custom function which specifies
 		        // how the intermediate paths should be drawn.
@@ -1082,13 +1134,13 @@ dashboard('#dashboard',freqData);
 		        return leg;
 		    }
 		    
-		    // calculate total frequency by segment for all state.
-		    var tF = ['low','mid','high'].map(function(d){ 
+		    // calculate total frequency by segment for all task_id.
+		    var tF = ['NASA','AT','WP'].map(function(d){ 
 		        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
 		    });    
 		    
-		    // calculate total frequency by state for all segment.
-		    var sF = fData.map(function(d){return [d.State,d.total];});
+		    // calculate total frequency by task_id for all segment.
+		    var sF = fData.map(function(d){return [d.task_id,d.total];});
 
 		    var hG = histoGram(sF), // create the histogram.
 		        pC = pieChart(tF), // create the pie-chart.
